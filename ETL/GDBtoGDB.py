@@ -1,4 +1,4 @@
-# This scripts duplicates features from several .gdbs to one .gdb.
+"""This scripts duplicates features from several .gdbs to one .gdb."""
 
 import os
 import arcpy

@@ -1,4 +1,4 @@
-# This script exports attribute table of one or more feature classes into individual Excel Workbooks.
+"""This script exports attribute table of one or more feature classes into individual Excel Workbooks."""
 
 import arcpy
 import os

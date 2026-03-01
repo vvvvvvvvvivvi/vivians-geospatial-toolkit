@@ -16,7 +16,7 @@ arcpy.env.overwriteOutput = True
 # Inputs
 source_aprx = r"\\path\to.aprx"  # Path to original ArcGIS Pro project
 destination_dir = r"\\base\path\to\allGDBs" # Path link to where the new .aprx sits
-aprx_name = "ProjAbbr_PEAandBNGSurvey" # Rename with Project abbreviation/ code
+aprx_name = "ProjAbbr_PEAandBNGSurvey" # Rename with Project abbreviation/ code ("ProjAbbr_PEAandBNGSurvey")
 
 # Making sure the aprx name is legal as a pathlink
 def sanitise_name(name):

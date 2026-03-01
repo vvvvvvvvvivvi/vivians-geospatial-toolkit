@@ -9,7 +9,7 @@ import os
 
 # Define the paths to the project and target layer file
 aprx_path = r"\\location\to.aprx" # Path link to workspace ArcGIS Pro project
-symbology_layer_file = r"\\gblon0vs01\GISProj\_Admin\Geospatial_Templates\Symbology\Layer_Files\UKHab_B_symbology.lyr"
+symbology_layer_file = r"\\location\to.lyr" # Path link to layer file
 
 # Load the APRX
 aprx = arcpy.mp.ArcGISProject(aprx_path)

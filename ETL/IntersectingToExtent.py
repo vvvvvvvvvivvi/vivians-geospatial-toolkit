@@ -1,4 +1,5 @@
-# This script iterates through all maps in an .aprx to intersect all layers with prefix "Edit_" to clip to the extent of a target feature class
+"""This script iterates through all maps in an .aprx to intersect all layers with prefix "Edit_" to clip to the extent of a target feature class
+"""
 
 import arcpy
 import os

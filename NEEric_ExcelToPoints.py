@@ -16,7 +16,7 @@ from calendar import monthrange
 output_folder_path = r"\\location\to\workingfolder" # Path link to working folder
 
 # Load target Excel file
-input_path = r"\\gblon0vs01\GISProj\B245771V_NW_Marske\IncData\NorthEastERIC\INC069_OnlineDataRequest_20251112\Jacobs 10-11-2025 Marske Bathing.xlsx"
+input_path = r"\\location\to\excel.xlsx" # Path link to excel sheet
 df = pd.read_excel(input_path)
 
 # Define seasonal end dates
