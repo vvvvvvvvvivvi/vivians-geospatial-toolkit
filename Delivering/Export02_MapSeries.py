@@ -16,6 +16,7 @@ import zipfile
 # Parameters - USER INPUTS
 aprx_path = r"\\location\to.aprx" # Path link to aprx
 output_link = r"\\location\to.folder" # Path link to output folder
+keyword = "" # Keyword to filter the layouts by defined name, e.g. "Figure 1" or "Map Book"
 
 #----------------------------------------------------------------------
 # Initialising 
@@ -29,7 +30,7 @@ else:
     
 # Exporting map series 
 for lyt in aprx.listLayouts():#
-    if lyt.name == "NTMNHM": #filter the ss_ layers
+    if keyword in lyt.name: #filter the layouts by keyword
         
         ms = lyt.mapSeries
         if ms:
