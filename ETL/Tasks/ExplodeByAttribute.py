@@ -25,7 +25,7 @@ else:
     raise SystemExit
 
 
-# STEP 1 â€” GET UNIQUE VALUES
+# STEP 1: GET UNIQUE VALUES
 try:
     print("Extracting unique values...")
     unique_vals = sorted({row[0] for row in arcpy.da.SearchCursor(in_fc, [unique_field])})
@@ -43,7 +43,7 @@ except Exception:
     total_rows = -1
     print("WARNING: Could not calculate total row count.\n")
 
-# STEP 2 â€” PROCESS EACH UNIQUE VALUE
+# STEP 2: PROCESS EACH UNIQUE VALUE
 for val in unique_vals:
     try:
         print(f"\nProcessing value: {val}")

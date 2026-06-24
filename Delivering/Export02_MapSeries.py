@@ -1,5 +1,6 @@
 # This script exports a layout linked to a map series as individual map sheets and a map book and zip the output for delivering.
-""" In the process of delivering 33 figures in a map series, 
+""" Part 2/2 of PDF Export
+In the process of delivering 33 figures in a map series, 
 I struggled not with making the maps, but to find the most efficient way to export and send the figures off.
 At first I created dedicated Sharepoint folder to share the outputs for draft review, but I slowly realised how inefficient that was.
 The manual clicking and long waiting window for all of the 33 pages of the map series to be exported added another level of challenge.
@@ -13,12 +14,12 @@ import os
 import zipfile
 
 # Parameters - USER INPUTS
-aprx_link = r"\\location\to.aprx" # Path link to aprx
+aprx_path = r"\\location\to.aprx" # Path link to aprx
 output_link = r"\\location\to.folder" # Path link to output folder
 
 #----------------------------------------------------------------------
 # Initialising 
-aprx = arcpy.mp.ArcGISProject(aprx_link)
+aprx = arcpy.mp.ArcGISProject(aprx_path)
 print(f"Initiating Map Series export.")
 
 if not os.path.isdir(output_link):

@@ -8,13 +8,16 @@ import arcpy
 import os
 
 # Define the paths to the geodatabase
-arcpy.env.workspace = r"\\location\to.gdb" # Path link to geodatabase
-arcpy.env.overwriteOutput = True
+gdb_path = r"\\location\to.gdb" # Path link to geodatabase
 
 # Base name of the input feature classes to be clipped
 clipped_feature_class = ""
 # Target feature class within the gdb/sde for clipping
 clipping_feature_class = "" 
+
+
+arcpy.env.workspace = gdb_path
+arcpy.env.overwriteOutput = True
 
 # The script is also set up to iterate through a list of feature classes sharing the same base name
 """ # List of input feature class names

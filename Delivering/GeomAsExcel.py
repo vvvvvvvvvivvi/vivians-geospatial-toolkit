@@ -12,7 +12,7 @@ in_fc = [
     "",
 ]
 output_name = "OutputFCName" # Name of output feature class
-output_path = r"\\location\to.folder" # Path link to output folder to contain the Excel worksheet
+output_base_folder = r"\\location\to.folder" # Path link to output folder to contain the Excel worksheet
 
 data = []
 for fc in in_fc:
@@ -40,7 +40,7 @@ for fc in in_fc:
         print(f"{fc} does not exist.")
 
 try:      
-    output_file = os.path.join(output_path, f"{output_name}.xlsx")
+    output_file = os.path.join(output_base_folder, f"{output_name}.xlsx")
     fields = ["Area", "Perimtre (m)"] # Change if necessary
 
     df = pd.DataFrame(data)

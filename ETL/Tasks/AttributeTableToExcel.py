@@ -5,21 +5,21 @@ import os
 import pandas as pd
 
 # Define the paths to the geodatabase and target feature class
-gdbPath = r"\\location\to.gdb" # Path link to geodatabase
-arcpy.env.workspace = gdbPath
+gdb_path = r"\\location\to.gdb" # Path link to geodatabase
+arcpy.env.workspace = gdb_path
 arcpy.env.overwriteOutput = True
 writingFCs = [
     "Crossings_Tagged",
     "Crossings_Buffered_Tagged"
 ]
 
-outputPath = r"\\path\to\workingfolder"
+output_base_folder = r"\\path\to\workingfolder"
 
 for fc in writingFCs:
     if arcpy.Exists(fc):
         print(f"Exporting {fc} as Excel...")
         try:
-            output_file = os.path.join(outputPath, f"{fc}.xlsx")
+            output_file = os.path.join(output_base_folder, f"{fc}.xlsx")
             fields = [f.name for f in arcpy.ListFields(fc) if f.type not in ('Geometry', 'Date', 'OID')]
 
             # Use SearchCursor to avoid NumPy type issues

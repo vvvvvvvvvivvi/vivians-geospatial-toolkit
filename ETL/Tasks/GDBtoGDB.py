@@ -4,7 +4,7 @@ import os
 import arcpy
 
 # Define the paths to the geodatabase, and target feature class
-gdbPath = r"\\location\to.gdb" # Path link to workspace geodatabase
+gdb_path = r"\\location\to.gdb" # Path link to workspace geodatabase
 
 
 inputFCs = [
@@ -12,14 +12,14 @@ inputFCs = [
     r"\\full\path\link\to\feature.gdb\two"
 ]
 
-print(f"Set geodatabase to {gdbPath}")
-arcpy.env.workspace = gdbPath
+print(f"Set geodatabase to {gdb_path}")
+arcpy.env.workspace = gdb_path
 arcpy.env.overwriteOutput = True
 
 
 for fc in inputFCs:
     try:
-        arcpy.conversion.FeatureClassToGeodatabase(fc, gdbPath)
+        arcpy.conversion.FeatureClassToGeodatabase(fc, gdb_path)
         print(f"{fc} duplicated to geodatabase.")
     except Exception as e:
         print(f"Failed to export {fc} to geodatabase. Error: {e}")
