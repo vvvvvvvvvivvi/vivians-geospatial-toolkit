@@ -1,20 +1,9 @@
-# This script pushes all layers in a map to a .sde.
-""" Part 3/3 of SDR toolkit.
-To fulfill the standards in the company, we have to log incoming data to the Spatial Data Register (SDR) each time.
-It requires you to make a copy of the data to both the project .sde, as well as the discipline .gdb
-However, it also requires any data going into the .gdb to have a version number
-This script is developed as I was too lazy to edit each layer by layer.
-What I do instead is I inspect all processed data on a specific map, then using the script, renaming and pushing to .gdb/ .sde 
-This script is different from the .sde version, as each discipline has its own gdb location.
-This script iterates through the layers name and sort them into their respective .gdb by their prefixes.
-"""
-
 import arcpy
 import os
 
 # Define paths
-aprx_path = r"\\path\to.aprx"  # Path to ArcGIS Pro project
-base_gdb_path = r"\\base\path\to\allGDBs" # Path link to where the gdbs sit
+aprx_path = r"\\location\to.aprx" # Path link to aprx
+base_gdb_path = r"\\location\to.gdb" # Path link to workspace geodatabase
 
 # Mapping of prefixes to geodatabase names
 prefix_to_gdb = {
@@ -45,7 +34,7 @@ prefix_to_gdb = {
 
 # Load the project
 aprx = arcpy.mp.ArcGISProject(aprx_path)
-map_obj = aprx.listMaps("Publishing")[0] 
+map_obj = aprx.listMaps("SDE")[0]  # Assuming there's only one map
 
 # Export each layer based on prefix
 for lyr in map_obj.listLayers():
