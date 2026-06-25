@@ -5,6 +5,7 @@ import sys
 
 working_path = sys.argv[2]
 working_map_name = sys.argv[3]
+sde_path = sys.argv[8]
 
 
 BNG_SR = arcpy.SpatialReference(27700)
@@ -12,7 +13,7 @@ BNG_SR = arcpy.SpatialReference(27700)
 arcpy.env.overwriteOutput = True
 
 for dirpath, dirnames, fc_names in arcpy.da.Walk(
-    gdb_path,
+    sde_path,
     datatype="FeatureClass"
 ):
     for fc in fc_names:

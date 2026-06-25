@@ -6,7 +6,7 @@ working_map_name = sys.argv[3]
 
 
 working_map = None
-for m in working_aprx.listMaps():
+for m in working_path.listMaps():
     if m.name == working_map_name:
         working_map = m
         break

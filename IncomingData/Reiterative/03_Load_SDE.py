@@ -82,14 +82,22 @@ for lyr in map_obj.listLayers():
         # ------------------------------
         # EXPORT TO SDE
         # ------------------------------
-        validated_name = arcpy.ValidateTableName(layer_name, sde_path)
+                
+        # Ensure string paths
+        out_dataset = str(out_dataset)
+
+        validated_name = arcpy.CreateUniqueName(layer_name, sde_path)
+        export_path = os.path.join(sde_path, validated_name)
+
+        # Delete if exists (important for SDE)
+        if arcpy.Exists(export_path):
+            arcpy.management.Delete(export_path)
 
         print(f"🚀 Exporting {layer_name} → {validated_name}")
 
-        arcpy.FeatureClassToFeatureClass_conversion(
-            Path(out_dataset),
-            Path(sde_path),
-            validated_name
+        arcpy.conversion.ExportFeatures(
+            out_dataset,
+            export_path
         )
 
         # ------------------------------

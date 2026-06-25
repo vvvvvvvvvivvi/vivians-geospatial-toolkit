@@ -12,13 +12,13 @@ CONFIG_PATH = Path(__file__).parent / "publish_defaults.json"
 # PARAMETERS
 # ==============================
 publishing_path = r"\\gblon0vs01\GISProj\B2457705_NW_Lowestoft\ArcGIS\000_ProjectMapper\016_SWRTS_waste_MaterialsWaste.aprx"
-working_path = r"\\gblon0vs01\GISProj\B2457705_NW_Lowestoft\Working\VL\002_MineralsAndWasteData\SWRTS_MineralWaste.aprx"
-working_map_name = r"SDE"
+working_path = r"\\gblon0vs01\GISProj\B245776V_NW_CargoFleetLane\Working\VL\001_DataCollection\CargoFleet_DataCollection.aprx"
+working_map_name = "20260625"
 
 # Optional
-sde_path = r""
-base_gdb_path = r""
-sde_user = "JACOBS_CREATOR"
+sde_path = r"\\gblon0vs01\GISProj\B245776V_NW_CargoFleetLane\Data\SDE_Connections\B245776V_DataOwner@B245776V_NWCargoFleetLane.sde"
+base_gdb_path = r"\\gblon0vs01\GISProj\B245776V_NW_CargoFleetLane\Data"
+sde_user = "B245776V_DATAOWNER."
 
 # ==============================
 # HELPER FUNCTIONS
@@ -168,8 +168,8 @@ if "publishing_map" in requirements:
             "heading": publishing_map_heading
         })
 
-publishing_map_name = publishing_map_abbrv + "_" + publishing_map_prefix + "_" + publishing_map_heading
-print(f"✅ Publishing map name: {publishing_map_name}")
+    publishing_map_name = publishing_map_abbrv + "_" + publishing_map_prefix + "_" + publishing_map_heading
+    print(f"✅ Publishing map name: {publishing_map_name}")
 
 # ==============================
 # Confirm
