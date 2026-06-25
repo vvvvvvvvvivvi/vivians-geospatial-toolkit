@@ -11,14 +11,16 @@ CONFIG_PATH = Path(__file__).parent / "publish_defaults.json"
 # ==============================
 # PARAMETERS
 # ==============================
-publishing_path = r"\\gblon0vs01\GISProj\B2457705_NW_Lowestoft\ArcGIS\000_ProjectMapper\016_SWRTS_waste_MaterialsWaste.aprx"
 working_path = r"\\gblon0vs01\GISProj\B245776V_NW_CargoFleetLane\Working\VL\001_DataCollection\CargoFleet_DataCollection.aprx"
 working_map_name = "20260625"
+
+publishing_path = r"\\gblon0vs01\GISProj\B245776V_NW_CargoFleetLane\ArcGIS\000_ProjectMapper\000_ProjectAbbreviation_WaterEnvironmentWebMap.aprx"
+publishing_map_name = "NWCFL_wa_Watercourses"
 
 # Optional
 sde_path = r"\\gblon0vs01\GISProj\B245776V_NW_CargoFleetLane\Data\SDE_Connections\B245776V_DataOwner@B245776V_NWCargoFleetLane.sde"
 base_gdb_path = r"\\gblon0vs01\GISProj\B245776V_NW_CargoFleetLane\Data"
-sde_user = "B245776V_DATAOWNER."
+sde_user = "B245776V_DATAOWNER"
 
 # ==============================
 # HELPER FUNCTIONS
@@ -50,6 +52,16 @@ def validate_sde(path):
     for fc in (fcs or [])[:3]:
         print(arcpy.Describe(fc).catalogPath)
 
+def verify_map(aprx_path, map_name):
+    aprx = arcpy.mp.ArcGISProject(aprx_path)
+    maps = aprx.listMaps(map_name)
+
+    if maps:
+        print(f"✅ Map exists: {map_name}")
+        my_map = maps[0]
+    else:
+        print(f"❌ Map not found: {map_name}")
+
 
 def load_defaults():
     if CONFIG_PATH.exists():
@@ -71,7 +83,7 @@ REQS = {
     "02": ["working_path", "working_map", "base_gdb"],
     "03": ["working_path", "working_map", "sde"],
     "04": ["working_path", "working_map", "sde"],
-    "05": ["working_path", "working_map", "publishing", "publishing_map", "project_code", "project_name", "final_publishing_map_abbrv"],
+    "05": ["working_path", "working_map", "project_code", "project_name"],
     "06": ["publishing", "publishing_map"],
     "07": ["publishing", "publishing_map"],
 }
@@ -91,21 +103,29 @@ requirements = REQS[script_code]
 # ==============================
 
 # ---- Publishing APRX ----
-if "publishing" in requirements:
-    publishing_path = validate_aprx(publishing_path)
+if "publishing" in requirements and script_code != "05":
+    if not publishing_path:
+        publishing_path = input("Enter publishing aprx path link (you may include the full path in quotes): ").strip().strip('"')
+    if not publishing_map_name:
+        publishing_map_name = input("Enter publishing map name: ").strip()
+    validate_aprx(publishing_path)
+    verify_map(publishing_path, publishing_map_name)
+
 else:
-    publishing_path = Path(publishing_path) if publishing_path else None
+    publishing_path = None
+    publishing_map_name = None
 
 # ---- Working APRX ----
 if "working_path" in requirements:
     working_path = validate_aprx(working_path)
+    verify_map(working_path, working_map_name)
 
 # ---- Extract project info only if needed ----
 project_root = None
-if any(x in requirements for x in ["sde", "base_gdb", "publishing"]):
-    base_source = publishing_path or Path(working_path)
-    project_root = base_source.parents[2]
-    project_root_name = project_root.name
+if any(x in requirements for x in ["sde", "base_gdb", "project_code", "project_name", "publishing"]):
+    base_source = publishing_path if publishing_path else Path(working_path)
+    project_root = str(base_source).split("\\gblon0vs01\GISProj\\")[-1] if "\\gblon0vs01\GISProj\\" in str(base_source) else None
+    project_root_name = project_root.split("\\")[0] if "\\" in project_root else None
 
     try:
         project_code, project_name = project_root_name.split("_", 1)
@@ -131,45 +151,6 @@ if "sde" in requirements:
         sde_path = Path(sde_path)
 
     validate_sde(sde_path)
-
-# ---- Publishing map logic ----
-publishing_map_abbrv = ""
-publishing_map_prefix = ""
-publishing_map_heading = ""
-publishing_map_name = ""
-final_abbrv = ""
-
-if "publishing_map" in requirements:
-    
-    defaults = load_defaults()
-
-    if defaults:
-        print("\nPrevious publishing values found:")
-        print(f"  Abbreviation : {defaults.get('abbrv')}")
-        print(f"  Map prefix   : {defaults.get('prefix')}")
-        print(f"  Map heading  : {defaults.get('heading')}")
-
-        use_defaults = input("\nUse these values? (yes/no): ").strip().lower() == "yes"
-    else:
-        use_defaults = False
-
-    if use_defaults:
-        publishing_map_abbrv = defaults.get("abbrv", "")
-        publishing_map_prefix = defaults.get("prefix", "")
-        publishing_map_heading = defaults.get("heading", "")
-    else:
-        publishing_map_abbrv = input("Enter project abbreviation (optional): ").strip()
-        publishing_map_prefix = input("Enter map prefix: ").strip()
-        publishing_map_heading = input("Enter map heading: ").strip()
-
-        save_defaults({
-            "abbrv": publishing_map_abbrv,
-            "prefix": publishing_map_prefix,
-            "heading": publishing_map_heading
-        })
-
-    publishing_map_name = publishing_map_abbrv + "_" + publishing_map_prefix + "_" + publishing_map_heading
-    print(f"✅ Publishing map name: {publishing_map_name}")
 
 # ==============================
 # Confirm
@@ -198,21 +179,17 @@ confirm()
 args = [
     sys.executable,
     str(script_path),
-    str(publishing_path or ""),
-    str(working_path or ""),
-    working_map_name or "",
-    str(base_gdb_path or ""),
-    str(sde_path or ""),
-    sde_name or "",
-    sde_user or "",
-    publishing_map_abbrv,
-    publishing_map_prefix,
-    publishing_map_heading,
-    publishing_map_name,
-    project_code,
-    project_name,
-    final_abbrv
+    str(working_path or ""), #1
+    working_map_name or "", #2
+    str(sde_path or ""), #3
+    str(base_gdb_path or ""), #4
+    str(sde_user or ""), #5
+    project_code or "", #6
+    project_name or "", #7
+    publishing_path or "", #8
+    publishing_map_name or "" #9
 ]
+
 
 subprocess.run(args, check=True)
 
@@ -221,13 +198,46 @@ print("\n✅ Script completed.")
 # ==============================
 # Open APRX
 # ==============================
-choice = input("\nOpen APRX? (pub / work / no): ").lower()
+choice = input("\nOpen APRX? (pub / work / no / rerun): ").lower()
 
 if choice == "pub" and publishing_path:
     os.startfile(publishing_path)
 
 elif choice == "work" and working_path:
     os.startfile(working_path)
+
+elif choice == "rerun":
+    rerun_code = input("\nEnter script number (e.g. 1 → 01_...): ").zfill(2)
+
+    if rerun_code not in REQS:
+        fail("Invalid script code")
+
+    rerun_script = next(
+        (f for f in os.listdir(SCRIPT_FOLDER)
+         if f.startswith(rerun_code) and f.endswith(".py")),
+        None
+    )
+
+    if not rerun_script:
+        fail("Script not found")
+
+    rerun_script_path = SCRIPT_FOLDER / rerun_script
+    print(f"\n✅ Running {rerun_script_path.name}")
+    confirm()
+
+    subprocess.run([
+        sys.executable,
+        str(rerun_script_path),
+        str(working_path or ""),
+        working_map_name or "",
+        str(sde_path or ""),
+        str(base_gdb_path or ""),
+        str(sde_user or ""),
+        project_code or "",
+        project_name or "",
+        publishing_path or "",
+        publishing_map_name or ""
+    ], check=True)
 
 else:
     print("Finished.")

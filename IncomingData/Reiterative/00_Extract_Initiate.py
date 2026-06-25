@@ -1,8 +1,8 @@
 
 import sys
 
-working_path = sys.argv[2]
-working_map_name = sys.argv[3]
+working_path = sys.argv[1]
+working_map_name = sys.argv[2]
 
 
 working_map = None

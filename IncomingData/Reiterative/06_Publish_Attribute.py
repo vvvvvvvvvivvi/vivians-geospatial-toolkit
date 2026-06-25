@@ -3,8 +3,8 @@ import re
 import sys
 from pathlib import Path
 
-publishing_path = Path(sys.argv[1])
-publishing_map_name = sys.argv[11]
+publishing_path = Path(sys.argv[8])
+publishing_map_name = sys.argv[9]
 
 arcpy.env.overwriteOutput = True
 
@@ -19,7 +19,14 @@ KEYWORD_MAP = {
     "dist": "Distance",
     "appl": "Application",
     "num": "Number",
+    "no": "Number",
+    "desc": "Description",
+    "feat": "Feature",
+    "ngr": "NGR",
+    "northing": "Northing",
 }
+
+PROTECTED_WORDS = ["SHAPELength", "SHAPEArea", "OBJECTID", "Shape", "Shape_Length", "Shape_Area"]
 
 # ---------------------------------------------------------------------
 # HELPER FUNCTIONS
@@ -44,6 +51,8 @@ def expand_keywords(words):
 
     for word in words:
         word_lc = word.lower()
+        if word_lc in PROTECTED_WORDS:
+            continue  # Skip protected words
 
         # Units (exact match only)
         if word_lc == "m":
@@ -52,10 +61,18 @@ def expand_keywords(words):
         if word_lc == "km":
             expanded.append("(km)")
             continue
+        if word_lc == "ha":
+            expanded.append("(ha)")
+            continue
 
         # Keyword expansion
         replaced = False
         for key, value in KEYWORD_MAP.items():
+            if word_lc.startswith('northing') or word_lc.startswith('Node'):
+                expanded.append(word.capitalize())
+                replaced = True
+                break
+
             if word_lc == key or word_lc.startswith(key):
                 expanded.append(value)
                 replaced = True

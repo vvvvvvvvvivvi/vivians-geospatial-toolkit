@@ -3,9 +3,9 @@ import os
 import uuid
 import sys
 
-working_path = sys.argv[2]
-working_map_name = sys.argv[3]
-sde_path = sys.argv[8]
+working_path = sys.argv[1]
+working_map_name = sys.argv[2]
+sde_path = sys.argv[3]
 
 
 BNG_SR = arcpy.SpatialReference(27700)

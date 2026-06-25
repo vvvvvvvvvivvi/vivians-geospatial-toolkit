@@ -3,9 +3,9 @@ from pathlib import Path
 import os
 import sys
 
-working_path = Path(sys.argv[2])
-working_map_name = sys.argv[3]
-base_gdb_path = Path(sys.argv[4])
+working_path = sys.argv[1]
+working_map_name = sys.argv[2]
+base_gdb_path = sys.argv[4]
 
 
 # ==============================
