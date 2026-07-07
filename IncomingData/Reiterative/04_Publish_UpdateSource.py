@@ -6,7 +6,7 @@ from pathlib import Path
 working_path = Path(sys.argv[1])
 working_map_name = sys.argv[2]
 sde_path = Path(sys.argv[3])
-sde_user = sys.argv[6]
+sde_user = sys.argv[5]
 
 
 # Parametres

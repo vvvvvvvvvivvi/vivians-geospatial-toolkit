@@ -2,6 +2,7 @@ import arcpy
 import sys
 import tempfile
 from pathlib import Path
+import re
 
 # --------------------------------------------------
 # Constants
@@ -104,6 +105,13 @@ def clean_map_layers(map_obj):
     for lyr in list(map_obj.listLayers()):
         name = lyr.name.strip()
 
+        # Remove "Working" layers
+        if "working" in name.lower():
+            map_obj.removeLayer(lyr)
+            print(f"Removed working layer {name}")
+            continue
+
+
         # Remove "Working" group
         if lyr.isGroupLayer and name.lower() == "working":
             map_obj.removeLayer(lyr)
@@ -123,13 +131,13 @@ def clean_map_layers(map_obj):
         except Exception:
             pass
 
-def apply_metadata(map_obj, name, project_code, project_name, prefix):
+def apply_metadata(map_obj, name, project_code, project_name, prefix, abbrv, details, pm_id):
     cat_name = prefix_lookup.get(prefix, "Unknown")
 
     map_obj.metadata.title = name
-    map_obj.metadata.tags = f"{project_code}, {project_name}, {prefix}, {cat_name}, {name}"
-    map_obj.metadata.summary = f"{name} for {project_code} {project_name}"
-    map_obj.metadata.description = f"{name} for {project_code} {project_name}"
+    map_obj.metadata.tags = f"Project Mapper, PM, {cat_name}, {prefix}, {(details).replace(' ', '')}, {project_code}, {abbrv}, {(project_name).replace(' ', '')}, {name}, {pm_id}"
+    map_obj.metadata.summary = f"{details} for {re.sub(r'(?<=[a-z])(?=[A-Z])', ' ', cat_name)} web map for Cargo Fleet Lane Project Mapper."
+    map_obj.metadata.description = f"Linked to registered Project Mapper: {pm_id}"
 
     map_obj.metadata.save()
 
@@ -147,7 +155,12 @@ def get_user_inputs(prefix, heading):
 
     print(f"✅ Map name: {map_name}")
 
-    return publishing_path, abbrv, heading, map_name
+    details = input("Map details/ description (optional): ").strip()
+
+    pm_id = input("Project Mapper ID (optional): ").strip()
+
+
+    return publishing_path, abbrv, heading, map_name, details, pm_id
 
 
 # --------------------------------------------------
@@ -189,7 +202,7 @@ def main():
 
     for prefix in prefixes:
 
-        publishing_path, abbrv, heading, map_name = get_user_inputs(prefix, heading)
+        publishing_path, abbrv, heading, map_name, details, pm_id = get_user_inputs(prefix, heading)
 
         publishing_aprx = arcpy.mp.ArcGISProject(publishing_path)
 
@@ -204,7 +217,7 @@ def main():
         clean_map_layers(pub_map)
 
         # Metadata
-        apply_metadata(pub_map, map_name, project_code, project_name, prefix)
+        apply_metadata(pub_map, map_name, project_code, project_name, prefix, abbrv, details, pm_id)
 
         publishing_aprx.save()
 

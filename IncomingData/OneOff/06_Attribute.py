@@ -4,7 +4,7 @@ import re
 # Configuration
 
 APRX_PATH = r"\\location\to.aprx" # Path link to aprx
-MAP_NAME = "EHSaferSpeeds_tr_MapEssex"
+MAP_NAME = "" # Name of the map in the APRX to export layers from
 
 MAX_FIELD_LENGTH = 64
 

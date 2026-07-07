@@ -2,6 +2,7 @@ import arcpy
 import sys
 from pathlib import Path
 
+
 SCALE_RULES = [
     (100, 1_000_000),
     (1_000, 500_000),
@@ -39,8 +40,8 @@ def apply_scale_rules(map_obj):
 
 def main():
 
-    publishing_path = r"\\gblon0vs01\GISProj\B245776V_NW_CargoFleetLane\ArcGIS\000_ProjectMapper\000_ProjectAbbreviation_WaterEnvironmentWebMap.aprx"
-    publishing_map_name = "NWCFL_wa_Watercourses"
+    publishing_path = Path(sys.argv[8])
+    publishing_map_name = sys.argv[9]
 
     publishing_aprx = arcpy.mp.ArcGISProject(publishing_path)
 

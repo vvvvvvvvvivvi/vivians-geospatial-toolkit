@@ -95,7 +95,7 @@ for lyr in map_obj.listLayers():
 
         print(f"🚀 Exporting {layer_name} → {validated_name}")
 
-        arcpy.conversion.ExportFeatures(
+        arcpy.conversion.CopyFeatures(
             out_dataset,
             export_path
         )

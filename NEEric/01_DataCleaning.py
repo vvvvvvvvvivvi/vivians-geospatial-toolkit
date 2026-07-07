@@ -107,7 +107,7 @@ df[['Easting', 'Northing']] = df['Grid Reference'].apply(lambda x: pd.Series(os_
 
 # Export full cleaned data to Excel
 output_excel_path = os.path.join(output_folder_path, 
-                                  "NEEric\ProtectedAndNotableSpecies.xlsx")
+                                  "ProtectedAndNotableSpecies.xlsx")
 df.to_excel(output_excel_path, index=False)
 
 print("Full data exported to Excel.")
@@ -115,7 +115,7 @@ print("Full data exported to Excel.")
 # Filter rows where InReview == 'T' and export to CSV
 df_in_review = df[df['InReview'] == 'T']
 output_csv_path = os.path.join(output_folder_path, 
-                                  "NEEric\ProtectedAndNotableSpecies.csv")
+                                  "ProtectedAndNotableSpecies.csv")
 df_in_review.to_csv(output_csv_path, index=False)
 
 print("'In Review' data exported to CSV.")

@@ -3,7 +3,7 @@ import re
 
 aprx_path = r"\\location\to.aprx" # Path link to aprx
 
-map_name = ""
+map_name = "" # Name of the map in the APRX to export layers from
 
 
 aprx = arcpy.mp.ArcGISProject(aprx_path)
@@ -12,13 +12,13 @@ for m in aprx.listMaps(map_name):
     if m.name == map_name:
         for lyr in m.listLayers():
             
-            if '_' in lyr.name:
+            # if '_' in lyr.name:
             # if lyr.isFeatureLayer:
 
                 # print(lyr.name)
 
                 print("Old name: " + lyr.name)
-                new_name = lyr.name.replace('_', "")
+                new_name = lyr.name.replace('  ', "")
                 lyr.name = new_name
                 print("New name: " + lyr.name)
 aprx.save() 

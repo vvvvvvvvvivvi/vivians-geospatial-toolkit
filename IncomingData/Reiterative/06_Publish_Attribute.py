@@ -64,6 +64,10 @@ def expand_keywords(words):
         if word_lc == "ha":
             expanded.append("(ha)")
             continue
+        if word_lc == "node":
+            expanded.append("Node")
+            continue
+
 
         # Keyword expansion
         replaced = False
