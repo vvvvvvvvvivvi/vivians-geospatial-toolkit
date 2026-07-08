@@ -95,7 +95,7 @@ for lyr in map_obj.listLayers():
 
         print(f"🚀 Exporting {layer_name} → {validated_name}")
 
-        arcpy.conversion.CopyFeatures(
+        arcpy.management.CopyFeatures(
             out_dataset,
             export_path
         )
@@ -106,8 +106,11 @@ for lyr in map_obj.listLayers():
         if "TMP_BNG_" in out_dataset:
             arcpy.management.Delete(out_dataset)
 
-    except Exception:
+    
+    except Exception as e:
         print(f"❌ Failed: {layer_name}")
-        print(arcpy.GetMessages())
+        print(f"Python error: {e}")
+        print(arcpy.GetMessages(2))
+
 
 print("\n✅ Export complete (all data in BNG).")

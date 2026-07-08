@@ -141,6 +141,50 @@ def apply_metadata(map_obj, name, project_code, project_name, prefix, abbrv, det
 
     map_obj.metadata.save()
 
+def map_properties(map_obj):
+
+    print("Map: " + map_obj.name)
+    # Map properties 
+    print("Get CIM")
+    cim = map_obj.getDefinition("V3")
+
+    print("Create dt1")
+    dt1 = arcpy.cim.CreateCIMObjectFromClassName("CIMDatumTransform", "V3")
+
+    print("Create dt2")
+    dt2 = arcpy.cim.CreateCIMObjectFromClassName("CIMDatumTransform", "V3")
+
+    print("Populate")
+    dt1.forward = True
+    dt1.geoTransformation = {
+        "geoTransforms": [{
+            "wkid": 5339,
+            "latestWkid": 5339,
+            "transformForward": False,
+            "name": "OSGB_1936_To_WGS_1984_7"
+        }]
+    }
+
+    dt2.forward = True
+    dt2.geoTransformation = {
+        "geoTransforms": [{
+            "wkid": 5339,
+            "latestWkid": 5339,
+            "transformForward": False,
+            "name": "OSGB_1936_To_WGS_1984_7"
+        }]
+    }
+
+    print("Assign")
+    cim.datumTransforms = [dt1, dt2]
+
+    # Assignment of unique numeric IDs
+    print("Set service layer IDs")
+    cim.useServiceLayerIDs = True
+
+    print("Set definition")
+    map_obj.setDefinition(cim)
+
 
 def get_user_inputs(prefix, heading):
     print(f"\n--- Configuring prefix: {prefix} ---")
@@ -218,6 +262,8 @@ def main():
 
         # Metadata
         apply_metadata(pub_map, map_name, project_code, project_name, prefix, abbrv, details, pm_id)
+
+        map_properties(pub_map)
 
         publishing_aprx.save()
 
