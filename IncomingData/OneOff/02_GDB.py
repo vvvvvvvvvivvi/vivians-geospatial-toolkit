@@ -2,8 +2,9 @@ import arcpy
 import os
 
 # Define paths
-aprx_path = r"\\location\to.aprx" # Path link to aprx
-base_gdb_path = r"\\location\to.gdb" # Path link to workspace geodatabase
+aprx_path = r"\path\to.aprx"
+map_name = "just_a_name"
+base_gdb_path = r"\\gblon0vs01\GISProj\B245775P_NW_TeesIndustrialDemand\Data" # Path link to workspace geodatabase
 
 # Mapping of prefixes to geodatabase names
 prefix_to_gdb = {
@@ -34,7 +35,7 @@ prefix_to_gdb = {
 
 # Load the project
 aprx = arcpy.mp.ArcGISProject(aprx_path)
-map_obj = aprx.listMaps("SDE")[0]  # Assuming there's only one map
+map_obj = aprx.listMaps(map_name)[0]  # Assuming there's only one map
 
 # Export each layer based on prefix
 for lyr in map_obj.listLayers():
@@ -42,8 +43,8 @@ for lyr in map_obj.listLayers():
         layer_name = lyr.name
         prefix = layer_name[:2].lower()
         if prefix in prefix_to_gdb:
-            gdb_name = prefix_to_gdb[prefix]
-            gdb_path = os.path.join(base_gdb_path, gdb_name)
+gdb_name = r"\path\to.gdb"
+gdb_path = r"\path\to.gdb"
             print(f"Exporting {layer_name} to {gdb_path}")
             arcpy.FeatureClassToFeatureClass_conversion(lyr, gdb_path, layer_name)
         else:

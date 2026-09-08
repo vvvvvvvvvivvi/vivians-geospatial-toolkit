@@ -14,9 +14,9 @@ import os
 import zipfile
 
 # Parameters - USER INPUTS
-aprx_path = r"\\location\to.aprx" # Path link to aprx
-output_link = r"\\location\to.folder" # Path link to output folder
-keyword = "" # Keyword to filter the layouts by defined name, e.g. "Figure 1" or "Map Book"
+aprx_path = r"\path\to.aprx"
+output_link = r"\\gblon0vs01\GISProj\B245775P_NW_TeesIndustrialDemand\ArcGIS\001_Figures\005_GeomorphologyAssessment\Outgoing\v5" # Path link to output folder
+layout_keyword = "just_a_name"
 
 #----------------------------------------------------------------------
 # Initialising 
@@ -29,28 +29,30 @@ else:
     print("Output path exists, proceeding with export.")
     
 # Exporting map series 
-for lyt in aprx.listLayouts():#
-    if keyword in lyt.name: #filter the layouts by keyword
+for layout in aprx.listLayouts():#
+    if layout_keyword not in layout.name:
+        print(f"Skipping layout: {layout.name}")
+        continue
         
-        ms = lyt.mapSeries
-        if ms:
-            export_name = arcpy.mp.CreateExportFormat('PDF', os.path.join(output_link, f"{lyt.name}.pdf"))
-            export_name.resolution = 500
+    ms = layout.mapSeries
+    if ms:
+        export_name = arcpy.mp.CreateExportFormat('PDF', os.path.join(output_link, f"{lyt.name}.pdf"))
+        export_name.resolution = 500
 
-            ms_ex_opt = arcpy.mp.CreateExportOptions("MAPSERIES")
+        ms_ex_opt = arcpy.mp.CreateExportOptions("MAPSERIES")
 
-            # Multiple files
-            ms_ex_opt.setExportFileOptions("PDF_MULTIPLE_FILES_PAGE_NAME")
-            ms.export(export_name, ms_ex_opt)
-            print("Exported as single sheets.")
+        # # Multiple files
+        # ms_ex_opt.setExportFileOptions("PDF_MULTIPLE_FILES_PAGE_NAME")
+        # ms.export(export_name, ms_ex_opt)
+        # print(f"Exported {lyt.name} as single sheets.")
 
-            # Single map book
-            ms_ex_opt.setExportFileOptions("PDF_SINGLE_FILE")
-            ms.export(export_name, ms_ex_opt)
-            print("Exported as map book.")
+        # Single map book
+        ms_ex_opt.setExportFileOptions("PDF_SINGLE_FILE")
+        ms.export(export_name, ms_ex_opt)
+        print(f"Exported {layout.name} as map book.")
 
-        else: #non-map series will not be exported
-            print(f"{lyt.name} is not a map series")
+    else: #non-map series will not be exported
+        print(f"{layout.name} is not a map series")
 
 # Zipping outputs
 try:

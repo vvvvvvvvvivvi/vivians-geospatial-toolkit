@@ -1,0 +1,5 @@
+# Local config
+config.yaml
+
+# Development folders
+*_dev/

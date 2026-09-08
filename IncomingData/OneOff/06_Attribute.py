@@ -2,15 +2,24 @@ import arcpy
 import re
 
 # Configuration
-
-APRX_PATH = r"\\location\to.aprx" # Path link to aprx
-MAP_NAME = "" # Name of the map in the APRX to export layers from
+aprx_path = r"\path\to.aprx"
+map_name = "just_a_name"
 
 MAX_FIELD_LENGTH = 64
 
 # Optional enforced renames (lowercase keys)
-COMMON_FIELD_NAMES = {
-    # "oldname": "new_name",
+COMMON_FIELD_NAME = {
+    "name": "Name",
+    "add": "Address",
+    "ref": "Reference",
+    "dist": "Distance",
+    "appl": "Application",
+    "num": "Number",
+    "no": "Number",
+    "desc": "Description",
+    "feat": "Feature",
+    "ngr": "NGR",
+    "northing": "Northing",
 }
 
 # Helpers

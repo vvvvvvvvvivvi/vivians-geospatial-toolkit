@@ -9,14 +9,16 @@ import shutil
 import os
 import re
 import sys
+from config import config
 
 # Enable overwriting
 arcpy.env.overwriteOutput = True
 
 # Inputs
-source_aprx = r"\\path\to.aprx"  # Path to original ArcGIS Pro project
-destination_dir = r"\\base\path\to\allGDBs" # Path link to where the new .aprx sits
-aprx_name = "ProjAbbr_PEAandBNGSurvey" # Rename with Project abbreviation/ code ("ProjAbbr_PEAandBNGSurvey")
+out_folder_path = r"\path\	o\folder"
+aprx_name = "NWLART_PEASurvey" # Rename with Project abbreviation/ code ("ProjAbbr_PEAandBNGSurvey")
+
+source_aprx = config["templates"]["pea_survey_aprx_path"]  # Path to original ArcGIS Pro project
 
 # Making sure the aprx name is legal as a pathlink
 def sanitise_name(name):
@@ -57,41 +59,62 @@ def setupPEAsurvey(source_path, destination_folder, aprx_name):
     new_aprx = arcpy.mp.ArcGISProject(destination_aprx_path)
 
     # Create new GDB
-    gdb_name = os.path.splitext(aprx_name)[0] + ".gdb"
-    gdb_path = os.path.join(destination_folder, gdb_name)
+gdb_name = r"\path\to.gdb"
+gdb_path = r"\path\to.gdb"
     arcpy.CreateFileGDB_management(destination_folder, os.path.splitext(aprx_name)[0])
 
-    # Track original workspaces and export features
-    original_workspaces = set()
+    # Track datasource mappings
+    datasource_map = {}
 
     for map_obj in original_aprx.listMaps():
         for lyr in map_obj.listLayers():
             if lyr.isFeatureLayer and lyr.supports("DATASOURCE"):
                 try:
                     source_fc = lyr.dataSource
-                    workspace = os.path.dirname(source_fc)
-                    original_workspaces.add(workspace)
 
                     base_name = sanitise_name(lyr.name)
-                    output_name = get_unique_name(gdb_path, base_name)
+output_name = "just_a_name"
 
-                    arcpy.FeatureClassToFeatureClass_conversion(source_fc, gdb_path, output_name)
-                    print(f"Exported {lyr.name} to {output_name}")
+                    arcpy.FeatureClassToFeatureClass_conversion(
+                        source_fc,
+                        gdb_path,
+                        output_name
+                    )
+
+                    new_fc = os.path.join(gdb_path, output_name)
+
+                    datasource_map[source_fc] = new_fc
+
+                    print(f"Exported {lyr.name} to {new_fc}")
+
                 except Exception as e:
                     print(f"Failed to export {lyr.name}: {e}")
 
-    # Update all workspace connections in the new APRX
-    for old_ws in original_workspaces:
-        try:
-            new_aprx.updateConnectionProperties(old_ws, gdb_path)
-            print(f"Updated workspace connection from {old_ws} to {gdb_path}")
-        except Exception as e:
-            print(f"Failed to update connection from {old_ws}: {e}")
+    # Update layer connections individually
+    for map_obj in new_aprx.listMaps():
+        for lyr in map_obj.listLayers():
+            if lyr.isFeatureLayer and lyr.supports("DATASOURCE"):
+                try:
+                    old_source = lyr.dataSource
+
+                    if old_source in datasource_map:
+                        lyr.updateConnectionProperties(
+                            old_source,
+                            datasource_map[old_source]
+                        )
+
+                        print(
+                            f"Updated {lyr.name}: "
+                            f"{old_source} -> {datasource_map[old_source]}"
+                        )
+
+                except Exception as e:
+                    print(f"Failed to update {lyr.name}: {e}")
 
     new_aprx.save()
 
     return f"APRX duplicated to {destination_aprx_path} and all layers linked to local GDB: {gdb_path}"
 
 # Run the function
-result = setupPEAsurvey(source_aprx, destination_dir, aprx_name)
+result = setupPEAsurvey(source_aprx, out_folder_path, aprx_name)
 print(result)

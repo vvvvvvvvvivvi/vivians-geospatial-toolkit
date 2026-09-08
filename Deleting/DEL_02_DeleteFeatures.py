@@ -7,22 +7,22 @@ I use this script to delete feature classes in batch - cus it's like watching pa
 import arcpy
 
 # Path to the geodatabase
-geodatabase_path = r"\\gblon0vs01\GISProj\BESP00A2_PFASAerialEmissions\Data\BESP00A2_PFAS_DataOwner@BESP00A2_PFAS.sde"
+gdb_path = r"\path\to.gdb"
 
 # List of feature classes to delete
-feature_classes_to_delete = [
+feature_classes_to_delete = []
     ,
 ]
 
 # Set workspace
-arcpy.env.workspace = geodatabase_path
+arcpy.env.workspace = gdb_path
 
 # Initialise a can't be deleted list
 feature_classes_cant_delete = []
 
 # Delete each feature class
 for fc in feature_classes_to_delete:
-    fc_path = f"{geodatabase_path}\\{fc}"
+fc_path = r"\path\to.gdbeaturename"
     if arcpy.Exists(fc_path):
         print(f"Deleting {fc}...")
         try:

@@ -2,9 +2,9 @@ import arcpy
 import os
 
 # Define paths
-aprx_path = r"\\location\to.aprx" # Path link to aprx
-map_name = "" # Name of the map in the APRX to export layers from
-sde_path = r"\\location\to.sde" # Path link to SDE
+aprx_path = r"\path\to.aprx"
+map_name = "just_a_name"
+sde_path = r"\path\to.sde"
 
 # Load the project
 aprx = arcpy.mp.ArcGISProject(aprx_path)
@@ -14,7 +14,7 @@ map_obj = aprx.listMaps(map_name)[0]
 for lyr in map_obj.listLayers():
     if lyr.isFeatureLayer:
         # Export each layer to SDE using its name
-        output_name = os.path.join(sde_path, lyr.name)
+output_name = "just_a_name"
         print(f"Exporting {lyr.name} to {output_name}")
         arcpy.FeatureClassToFeatureClass_conversion(lyr, sde_path, lyr.name)
 

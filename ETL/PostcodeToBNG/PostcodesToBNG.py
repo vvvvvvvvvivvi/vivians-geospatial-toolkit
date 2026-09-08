@@ -18,22 +18,20 @@ import os
 # =============================================================================
 # INPUTS
 # =============================================================================
-
-input_path = r"\\gblon0vs01\GISProj\B245771D_NW_NorthSuffolk\IncData\Anglian_Water\INC326_FoulSewageFloodData_20260630\Sewer_Connections_Suffolk_Essex_Water.xlsx"
-
-output_folder = r"\\gblon0vs01\GISProj\B245771D_NW_NorthSuffolk\Working\VL\020_FoulSewageFloodData"
+input_xlsx_path = r"\path\to.xlsx"
+out_folder_path = r"\path\	o\folder"
 
 
 # CREATE OUTPUT FOLDER IF REQUIRED
 
-os.makedirs(output_folder, exist_ok=True)
+os.makedirs(out_folder_path, exist_ok=True)
 
 print("Output path exists, proceeding with export.")
 
 
 # LOAD EXCEL
 
-df = pd.read_excel(input_path)
+df = pd.read_excel(input_xlsx_path)
 
 print(f"Loaded {len(df)} records")
 
@@ -176,8 +174,8 @@ print(f"Unmatched {len(df) - matched:,} postcodes")
 # EXPORT
 
 output_csv_path = os.path.join(
-    output_folder,
-    f"{Path(input_path).stem}_with_BNG.csv"
+    out_folder_path,
+    f"{Path(input_xlsx_path).stem}_with_BNG.csv"
 )
 
 df.to_csv(output_csv_path, index=False)

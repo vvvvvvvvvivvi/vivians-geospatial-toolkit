@@ -18,8 +18,8 @@ for m in aprx.listMaps(publishing_map_name):
             # print(lyr.name)
 
             print("Old name: " + lyr.name)
-            new_name = lyr.name.replace('tr_ O S U_ Open Roads_ ', "")
-            # new_name = re.sub(r'(?<!^)(?=[A-Z])', ' ', new_name)
+            new_name = lyr.name.replace('ec_JAC_MarineEcologyReceptors_', "")
+            new_name = re.sub(r'(?<!^)(?=[A-Z])', ' ', new_name)
             lyr.name = new_name
             print("New name: " + lyr.name)
 aprx.save() 

@@ -1,7 +1,6 @@
 import arcpy
-
-aprx_path = r""
-map_name = ""
+aprx_path = r"\path\to.aprx"
+map_name = "just_a_name"
 
 aprx = arcpy.mp.ArcGISProject(aprx_path)
 m = aprx.listMaps(map_name)[0]

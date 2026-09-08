@@ -3,19 +3,18 @@
 import arcpy
 import os
 import pandas as pd
-
-gdb_path = r"\\location\to.gdb" # Path link to workspace geodatabase
-in_fc = [
+gdb_path = r"\path\to.gdb"
+in_fc_name_list = []
     # List of fc name in gdb to iterate through
     "",
     "",
     "",
 ]
-output_name = "OutputFCName" # Name of output feature class
-output_base_folder = r"\\location\to.folder" # Path link to output folder to contain the Excel worksheet
+output_name = "just_a_name"
+output_base_folder = r"\path\	o\outputfolder"
 
 data = []
-for fc in in_fc:
+for fc in in_fc_name_list:
     full_path = os.path.join(gdb_path, fc)
     if arcpy.Exists(full_path):
 

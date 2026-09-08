@@ -13,11 +13,11 @@ from dateutil import parser
 from calendar import monthrange
 
 # Define path to working folder
-output_folder_path = r"\\location\to\workingfolder" # Path link to working folder
+out_folder_path = r"\path\	o\folder"
 
 # Load target Excel file
-input_path = r"\\location\to\excel.xlsx" # Path link to excel sheet
-df = pd.read_excel(input_path)
+input_xlsx_path = r"\path\to.xlsx"
+df = pd.read_excel(input_xlsx_path)
 
 # Define seasonal end dates
 season_end_dates = {
@@ -106,7 +106,7 @@ def os_grid_to_easting_northing(grid_ref):
 df[['Easting', 'Northing']] = df['Grid Reference'].apply(lambda x: pd.Series(os_grid_to_easting_northing(x)))
 
 # Export full cleaned data to Excel
-output_excel_path = os.path.join(output_folder_path, 
+output_excel_path = os.path.join(out_folder_path, 
                                   "ProtectedAndNotableSpecies.xlsx")
 df.to_excel(output_excel_path, index=False)
 
@@ -114,8 +114,21 @@ print("Full data exported to Excel.")
 
 # Filter rows where InReview == 'T' and export to CSV
 df_in_review = df[df['InReview'] == 'T']
-output_csv_path = os.path.join(output_folder_path, 
+output_csv_path = os.path.join(out_folder_path, 
                                   "ProtectedAndNotableSpecies.csv")
 df_in_review.to_csv(output_csv_path, index=False)
 
 print("'In Review' data exported to CSV.")
+
+# Quick QA report
+total_records = len(df)
+review_records = (df['InReview'] == 'T').sum()
+not_review_records = (df['InReview'] == 'F').sum()
+no_record_count = (df['InReview'] == 'No record').sum()
+
+print("\n=== Protected Species Data Summary ===")
+print(f"Total records received: {total_records:,}")
+print(f"Records flagged for review (<10 years old): {review_records:,}")
+print(f"Records not flagged for review (>=10 years old): {not_review_records:,}")
+print(f"Records with no valid date: {no_record_count:,}")
+print("======================================\n")

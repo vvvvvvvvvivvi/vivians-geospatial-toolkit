@@ -2,9 +2,11 @@ import arcpy
 import os 
 
 # Parametres
-aprx_path = r"\\location\to.aprx" # Path link to aprx
-sde_path = r"\\location\to.sde" # Path link to SDE
-sde_user = "" # Name of the SDE user/schema
+aprx_path = r"\path\to.aprx"
+map_name = "just_a_name"
+sde_path = r"\path\to.sde"
+sde_user = "DataOwner."
+
 WORKING_GROUP_NAME = "Working"
 
     
@@ -15,69 +17,70 @@ arcpy.env.workspace = sde_path
 
 print("Starting process...")
 
-for m in aprx.listMaps("SDE")[0]:
+m = aprx.listMaps(map_name)[0]
 
-    # Get or create the Working group layer
-    working_group = None
-    for lyr in m.listLayers():
-        if lyr.isGroupLayer and lyr.name == WORKING_GROUP_NAME:
-            working_group = lyr
-            break
+# Get or create the Working group layer
+working_group = None
+for lyr in m.listLayers():
+    if lyr.isGroupLayer and lyr.name == WORKING_GROUP_NAME:
+        working_group = lyr
+        break
 
-    if not working_group:
-        working_group = m.createGroupLayer(WORKING_GROUP_NAME)
-        print("Created 'Working' group layer")
+if not working_group:
+    working_group = m.createGroupLayer(WORKING_GROUP_NAME)
+    print("Created 'Working' group layer")
 
-    # Process target layer
-    for lyr in m.listLayers():
+# Process target layer
+for lyr in m.listLayers():
 
-        if not lyr.isFeatureLayer or lyr.isGroupLayer:
-            continue
+    if not lyr.isFeatureLayer or lyr.isGroupLayer:
+        continue
 
-        print(f"Processing layer: {lyr.name}")
+    print(f"Processing layer: {lyr.name}")
 
-        # Store definition query
-        def_query = lyr.definitionQuery
+    # Store definition query
+    def_query = lyr.definitionQuery
 
-        # Build SDE feature class path
-        fc_path = os.path.join(sde_path, f"{sde_user}.{lyr.name}")
+    # Build SDE feature class path
+    # fc_path = os.path.join(sde_path, f"{sde_user}.{lyr.name}")
+fc_path = r"\path\to.gdbeaturename"
 
-        if arcpy.Describe(lyr).path == fc_path:
-            print(f"âŒ Layer already driven by SDE data: {fc_path}")
-            continue
+    if arcpy.Describe(lyr).path == fc_path:
+        print(f"âŒ Layer already driven by SDE data: {fc_path}")
+        continue
 
-        # Add SDE layer
-        try:
-            new_layer = m.addDataFromPath(fc_path)
-        except:
-            print(f"âŒ Failed to add SDE layer: {fc_path}")
-            continue
-
-
-        # Apply symbology (RECOMMENDED method)
-        try:
-            arcpy.management.ApplySymbologyFromLayer(
-                in_layer=new_layer,
-                in_symbology_layer=lyr
-            )
-            print("âœ… Symbology applied")
-        except Exception as e:
-            print(f"âš ï¸ Symbology application failed: {e}")
-
-        # Apply definition query
-        new_layer.definitionQuery = def_query
+    # Add SDE layer
+    try:
+        new_layer = m.addDataFromPath(fc_path)
+    except:
+        print(f"âŒ Failed to add SDE layer: {fc_path}")
+        continue
 
 
-        # Rename to match original (clean TOC)
-        new_layer.name = lyr.name
-        lyr.name = ("Working_" + lyr.name)
+    # Apply symbology (RECOMMENDED method)
+    try:
+        arcpy.management.ApplySymbologyFromLayer(
+            in_layer=new_layer,
+            in_symbology_layer=lyr
+        )
+        print("âœ… Symbology applied")
+    except Exception as e:
+        print(f"âš ï¸ Symbology application failed: {e}")
 
-        # Move old service layer into Working group
-        m.moveLayer(working_group, lyr, "BEFORE")
+    # Apply definition query
+    new_layer.definitionQuery = def_query
 
-        print("âœ… Old service layer archived in 'Working' group")
 
-        
+    # Rename to match original (clean TOC)
+    new_layer.name = lyr.name
+    lyr.name = ("Working_" + lyr.name)
+
+    # Move old service layer into Working group
+    m.moveLayer(working_group, lyr, "BEFORE")
+
+    print("âœ… Old service layer archived in 'Working' group")
+
+    
 
 # Save project
 aprx.save()

@@ -10,8 +10,8 @@ import os
 import arcpy
 
 # Define the paths to the project, geodatabase, and target feature class
-gdbPath = r"\\location\to.gdb" # Path link to geodatabase
-arcpy.env.workspace = gdbPath
+gdb_path = r"\path\to.gdb"
+arcpy.env.workspace = gdb_path
 arcpy.env.overwriteOutput = True
 print(f"Working with {arcpy.env.workspace}")
 
@@ -34,10 +34,10 @@ pointFeatures = {
     #     "coord_type": "latlon"
     # }
     # Example BNG input:
-    # "SiteName": {
-    #     "coords": [407250, 282950],
-    #     "coord_type": "bng"
-    # }
+    "Blackwell_Pumping_Station": {
+        "coords": [427200, 511400],
+        "coord_type": "bng"
+    }
 }
 
 for featureName, data in pointFeatures.items():
@@ -61,11 +61,11 @@ for featureName, data in pointFeatures.items():
             raise ValueError(f"Unknown coord_type '{coord_type}'. Use 'latlon' or 'bng'.")
 
         # Output feature class path
-        outputPath = os.path.join(gdbPath, featureName)
+        outputPath = os.path.join(gdb_path, featureName)
 
         # Create feature class
         arcpy.CreateFeatureclass_management(
-            gdbPath,
+            gdb_path,
             featureName,
             "POINT",
             spatial_reference=bng

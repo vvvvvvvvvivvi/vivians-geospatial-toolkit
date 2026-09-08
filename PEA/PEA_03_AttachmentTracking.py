@@ -7,14 +7,14 @@ And... standardisation is a synonym for automation to me.
 import arcpy
 
 # Define the paths to the project and target geodatabase
-aprx_path = r"\\location\to.aprx" # Path link to workspace ArcGIS Pro project
+aprx_path = r"\path\to.aprx"
 aprx = arcpy.mp.ArcGISProject(aprx_path)
 
 # Loop through all maps and layers
 for map_obj in aprx.listMaps():
     for lyr in map_obj.listLayers():
         if lyr.isFeatureLayer and lyr.supports("DATASOURCE"):
-            fc_path = lyr.dataSource
+fc_path = r"\path\to.gdbeaturename"
             try:
                 # Enable editor tracking
                 arcpy.EnableEditorTracking_management(

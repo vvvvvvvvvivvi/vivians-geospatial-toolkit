@@ -1,61 +1,23 @@
 import arcpy
-import pprint
+import os
+import uuid
 
-aprx_path = r"\\gblon0vs01\GISProj\B3553RG4_SaferSpeeds\Working\VL\02_NewData\IncomingData260707.aprx"
+sde_path = r"\\gblon0vs01\GISProj\B3553RG4_SaferSpeeds\Data\B3553RG4_DataOwner@B3553RG4_SaferSpeeds.sde" # Path link to workspace geodatabase
+fc_name = "tr_ESH_HighwayNetwork"
+sde_name = "B3553RG4_DATAOWNER." + fc_name
+in_dataset = os.path.join(sde_path, sde_name)
+out_fc = fc_name + "_WGS84"
+out_dataset = os.path.join(sde_path, out_fc)
 
+out_sr = arcpy.SpatialReference(4326)  # WGS 1984
 
+arcpy.env.overwriteOutput = True
 
-print("Open APRX")
-aprx = arcpy.mp.ArcGISProject(aprx_path)
+arcpy.management.Project(
+    in_dataset,
+    out_dataset,
+    out_sr,
+    "OSGB_1936_To_WGS_1984_7"
+)
 
-print("Get map")
-m = aprx.listMaps("TestingMapProperties2")[0]
-
-print("Get CIM")
-cim = m.getDefinition("V3")
-
-print("Create dt1")
-dt1 = arcpy.cim.CreateCIMObjectFromClassName("CIMDatumTransform", "V3")
-
-print("Create dt2")
-dt2 = arcpy.cim.CreateCIMObjectFromClassName("CIMDatumTransform", "V3")
-
-print("Populate")
-dt1.forward = True
-dt1.geoTransformation = {
-    "geoTransforms": [{
-        "wkid": 5339,
-        "latestWkid": 5339,
-        "transformForward": False,
-        "name": "OSGB_1936_To_WGS_1984_7"
-    }]
-}
-
-dt2.forward = False
-dt2.geoTransformation = {
-    "geoTransforms": [{
-        "wkid": 5339,
-        "latestWkid": 5339,
-        "transformForward": False,
-        "name": "OSGB_1936_To_WGS_1984_7"
-    }]
-}
-
-print("Assign")
-cim.datumTransforms = [dt1, dt2]
-
-print("Set definition")
-m.setDefinition(cim)
-
-pp = pprint.PrettyPrinter(indent=2)
-
-for dt in cim.datumTransforms:
-    for prop in dir(dt):
-        if not prop.startswith("_"):
-            try:
-                print(prop, "=", getattr(dt, prop))
-            except:
-                pass
-
-print("Save")
-aprx.save()
+print("DONE: All data reprojected.")

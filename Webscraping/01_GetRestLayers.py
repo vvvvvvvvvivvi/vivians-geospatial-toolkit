@@ -2,7 +2,7 @@ import os
 import requests
 
 base_url = "https://services-eu1.arcgis.com/48zF6lPtAjyLTDSU/arcgis/rest/services/ECC_PlanningTransport_GardenCommunities_00/FeatureServer"
-output_folder = r"\\gblon0vs01\GISProj\B3553RG4_SaferSpeeds\Working\VL\02_NewData"
+out_folder_path = r"\path\	o\folder"
 
 def get_rest_layers(layer_rest_url):
     url_to_query = layer_rest_url + '?f=json'
@@ -22,7 +22,7 @@ for id in output_ids:
     layer_rest_url = base_url + "/" + str(id)
     print(f"\n{layer_rest_url}")
 
-output_file = os.path.join(output_folder, "rest_layers.txt")
+output_file = os.path.join(out_folder_path, "rest_layers.txt")
 
 with open(output_file, "w") as f:
     f.write("rest_layers = [\n")

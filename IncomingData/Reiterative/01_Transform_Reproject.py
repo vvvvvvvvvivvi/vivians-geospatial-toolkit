@@ -9,6 +9,7 @@ sde_path = sys.argv[3]
 
 
 BNG_SR = arcpy.SpatialReference(27700)
+WGS_BNG = "OSGB_1936_To_WGS_1984_7"
 
 arcpy.env.overwriteOutput = True
 
@@ -39,33 +40,46 @@ for dirpath, dirnames, fc_names in arcpy.da.Walk(
             continue
 
         # Case 3: Known CRS but not BNG → Project to new feature class
-        
-        # Create temp feature class (same workspace to avoid permissions issues)
+            
+        # Create temp feature class
         raw_temp_name = f"TMP_BNG_{fc}"
-        temp_fc_name = arcpy.ValidateTableName(raw_temp_name, dirpath)
-        temp_fc = os.path.join(dirpath, temp_fc_name)
+        temp_fc_name = arcpy.ValidateTableName(raw_temp_name, sde_path)
+        temp_fc = os.path.join(sde_path, temp_fc_name)
 
-        # Project to temp FC
+        print(f"Projecting {fc} to BNG...")
+
         arcpy.management.Project(
             in_dataset=in_path,
             out_dataset=temp_fc,
-            out_coor_system=BNG_SR
+            out_coor_system=BNG_SR,
+            transform_method=WGS_BNG
         )
 
-        # Truncate original FC
-        arcpy.management.TruncateTable(in_path)
+        print(f"Deleting original feature class: {fc}")
 
-        # Append back into original FC
-        arcpy.management.Append(
-            inputs=temp_fc,
-            target=in_path,
-            schema_type="NO_TEST"
+        arcpy.management.Delete(in_path)
+
+        # Rename projected FC back to original name
+        original_name = fc.split(".")[-1]
+
+        print(f"Renaming projected feature class to: {original_name}")
+
+        arcpy.management.Rename(
+            in_data=temp_fc,
+            out_data=original_name,
+            data_type="FeatureClass"
         )
-
-        # Clean up temp FC
-        arcpy.management.Delete(temp_fc)
 
         print(f"Superseded in BNG: {fc}")
+
+        # Verification
+        final_fc = os.path.join(sde_path, fc)
+        final_sr = arcpy.Describe(final_fc).spatialReference
+
+        print(
+            f"Final CRS: {final_sr.name} "
+            f"(EPSG:{final_sr.factoryCode})"
+        )
 
 
 print("DONE: All data is now in BNG.")

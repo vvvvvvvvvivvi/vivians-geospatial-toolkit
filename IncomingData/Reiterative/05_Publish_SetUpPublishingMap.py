@@ -136,7 +136,7 @@ def apply_metadata(map_obj, name, project_code, project_name, prefix, abbrv, det
 
     map_obj.metadata.title = name
     map_obj.metadata.tags = f"Project Mapper, PM, {cat_name}, {prefix}, {(details).replace(' ', '')}, {project_code}, {abbrv}, {(project_name).replace(' ', '')}, {name}, {pm_id}"
-    map_obj.metadata.summary = f"{details} for {re.sub(r'(?<=[a-z])(?=[A-Z])', ' ', cat_name)} web map for Cargo Fleet Lane Project Mapper."
+    map_obj.metadata.summary = f"{details} for {re.sub(r'(?<=[a-z])(?=[A-Z])', ' ', cat_name)} web map for {(project_name).replace(' ', '')} Project Mapper."
     map_obj.metadata.description = f"Linked to registered Project Mapper: {pm_id}"
 
     map_obj.metadata.save()
@@ -247,7 +247,6 @@ def main():
     for prefix in prefixes:
 
         publishing_path, abbrv, heading, map_name, details, pm_id = get_user_inputs(prefix, heading)
-
         publishing_aprx = arcpy.mp.ArcGISProject(publishing_path)
 
         # Import map

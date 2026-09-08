@@ -1,9 +1,8 @@
 import arcpy
 import sys
 from pathlib import Path
-
-publishing_path = r"\\location\to.aprx" # Path link to aprx
-publishing_map_name = "" # Name of the map in the APRX to export layers from
+publishing_aprx_path = r"\path\to.aprx"
+publishing_map_name = "just_a_name"
 
 SCALE_RULES = [
     (100, 1_000_000),

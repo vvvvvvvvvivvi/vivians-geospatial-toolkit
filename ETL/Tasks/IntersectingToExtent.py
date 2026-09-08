@@ -8,9 +8,11 @@ import os
 arcpy.env.overwriteOutput = True
 
 # Define the paths to the project, geodatabase, and target feature class
-aprx_path = r"\\location\to.aprx" # Path link to workspace ArcGIS Pro project
-gdb_path = r"\\location\to.gdb" # Path link to workspace geodatabase
-target_feature_class = os.path.join(gdb_path, "Area")
+aprx_path = r"\path\to.aprx"
+gdb_path = r"\path\to.gdb"
+target_feature_class_name = "just_a_name"
+
+target_feature_class_path = os.path.join(gdb_path, target_feature_class_name)
 
 # Access the ArcGIS Project
 try:
@@ -28,14 +30,14 @@ for m in aprx.listMaps():
     for lyr in m.listLayers():
         if lyr.isFeatureLayer and lyr.name.startswith("Edit_"):
             try:
-                input_fc_path = lyr.dataSource
-                output_fc_name = f"{lyr.name}_ProjectScope"
+input_fc_path = r"\path\to.gdbeaturename"
+output_fc_name = "just_a_name"
                 output_fc_path = os.path.join(gdb_path, output_fc_name)
 
                 print(f"Processing intersection for: {lyr.name}")
 
                 # Perform the Intersect analysis
-                arcpy.analysis.Intersect([target_feature_class, input_fc_path], output_fc_path, "ALL", None, "INPUT")
+                arcpy.analysis.Intersect([target_feature_class_path, input_fc_path], output_fc_path, "ALL", None, "INPUT")
 
                 print(f"Successfully created: {output_fc_name}")
 

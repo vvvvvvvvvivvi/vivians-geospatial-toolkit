@@ -11,16 +11,16 @@ CONFIG_PATH = Path(__file__).parent / "publish_defaults.json"
 # ==============================
 # PARAMETERS
 # ==============================
-working_path = r""
-working_map_name = ""
+working_path = r"\\gblon0vs01\GISProj\B3553RG4_SaferSpeeds\Working\VL\01_Processing\SaferSpeeds_DataProcessing.aprx"
+working_map_name = "260717"
 
-publishing_path = r""
-publishing_map_name = ""
+publishing_path = r"\\gblon0vs01\GISProj\B245775P_NW_TeesIndustrialDemand\ArcGIS\000_ProjectMapper\000_ProjectAbbreviation_BiodiversityWebMap.aprx"
+publishing_map_name = "NWTees_ec_DependentsMapping"
 
 # Optional
-sde_path = r""
-base_gdb_path = r""
-sde_user = ""
+sde_path = r"\\gblon0vs01\GISProj\B3553RG4_SaferSpeeds\Data\B3553RG4_DataOwner@B3553RG4_SaferSpeeds.sde"
+base_gdb_path = r"\\gblon0vs01\GISProj\B3553RG4_SaferSpeeds\Data"
+sde_user = "B3553RG4_DataOwner"
 
 project_code = ""
 project_name = ""

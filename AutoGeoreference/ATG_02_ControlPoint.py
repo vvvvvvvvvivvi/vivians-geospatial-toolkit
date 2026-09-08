@@ -12,10 +12,11 @@ import os
 import csv
 
 # Define the paths to the project, geodatabase, and target feature class
-aprx_path = r"\\path\to.aprx"  # Path to ArcGIS Pro project
-reference_fc = r"\\path\to.gdb\featurename"  # Point or polygon feature class
-gdb_path = r"\\location\to.gdb" # Path link to workspace geodatabase
-control_points_txt = os.path.join(r"\\path\to\workingfolder", # Path link to working folder
+aprx_path = r"\path\to.aprx"
+reference_fc = r"\path\to.gdbeaturename"
+gdb_path = r"\path\to.gdb"
+working_folder_path = r"\\path\to\workingfolder" # Path link to working folder
+control_points_txt = os.path.join(working_folder_path, # Path link to working folder
                                   "ControlPoint.txt")
 
 control_points_fc = os.path.join(gdb_path, 

@@ -1,7 +1,6 @@
 import arcpy
-
-aprx_path = r"\\gblon0vs01\GISProj\B3553RG4_SaferSpeeds\Working\VL\02_NewData\IncomingData260707.aprx"
-map_list = ["TestingMapProperties"]  # List of map names to create
+aprx_path = r"\path\to.aprx"
+map_list = ["just_a_name"]
 
 aprx = arcpy.mp.ArcGISProject(aprx_path)
 for m in map_list:

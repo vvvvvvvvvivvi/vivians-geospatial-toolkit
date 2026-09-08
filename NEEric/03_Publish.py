@@ -38,8 +38,7 @@ def get_user_inputs(prefix, heading):
     pm_id = input("Project Mapper ID (optional): ").strip()
 
     details = input("Layer details/ description (optional): ").strip()
-
-    map_name = f"{abbrv}_{prefix}_{heading}"
+map_name = "just_a_name"
 
     print(f"✅ Map name: {map_name}")
 

@@ -7,13 +7,13 @@ I use this script to delete feature classes in batch - cus it's like watching pa
 import arcpy
 
 # Define the paths to the sde/geodatabase
-sde_path = r"\\location\to.gdb" # Path link to sde/gdb
+sde_path = r"\path\to.sde"
+
+# Initialise the list
+feature_classes_to_delete = []
 
 # Set the workspace to the SDE connection
 arcpy.env.workspace = sde_path
-
-# Initialize the list
-feature_classes_to_delete = []
 
 # List feature classes in the root of the SDE
 for fc in arcpy.ListFeatureClasses():

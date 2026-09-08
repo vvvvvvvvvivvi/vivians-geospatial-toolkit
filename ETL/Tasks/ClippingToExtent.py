@@ -8,12 +8,12 @@ import arcpy
 import os
 
 # Define the paths to the geodatabase
-gdb_path = r"\\location\to.gdb" # Path link to geodatabase
+gdb_path = r"\path\to.gdb"
 
 # Base name of the input feature classes to be clipped
-clipped_feature_class = ""
+clipped_feature_class = "just_a_name"
 # Target feature class within the gdb/sde for clipping
-clipping_feature_class = "" 
+clipping_feature_class = "just_a_name"
 
 
 arcpy.env.workspace = gdb_path
@@ -30,7 +30,7 @@ clipped_feature_class_names = [
 # Loop through each input and perform intersection
 for input_fc_name in clipped_feature_class:
 #for input_fc_name in clipped_feature_class_names:
-    output_fc_name = f"{input_fc_name}_clipped" # Or whatever preferred name
+output_fc_name = "just_a_name"
 
     # Clip
     arcpy.Clip_analysis(input_fc_name, clipping_feature_class, output_fc_name)

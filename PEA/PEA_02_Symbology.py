@@ -6,10 +6,13 @@ And... standardisation is a synonym for automation to me.
 
 import arcpy
 import os
+from config import config
 
 # Define the paths to the project and target layer file
-aprx_path = r"\\location\to.aprx" # Path link to workspace ArcGIS Pro project
-symbology_layer_file = r"\\location\to.lyr" # Path link to layer file
+aprx_path = r"\path\to.aprx"
+symbology_layer_file = r"\\gblon0vs01\GISProj\_Admin\Geospatial_Templates\Symbology\Layer_Files\UKHab_B_symbology.lyr" # Path link to layer file
+
+symbology_layer_file = output_folder_path = config["templates"]["ukhabs_symbology_lyr_path"]  # Path to original ArcGIS Pro project
 
 # Load the APRX
 aprx = arcpy.mp.ArcGISProject(aprx_path)

@@ -7,16 +7,16 @@ import os
 import traceback
 
 # Define the paths to the geodatabase and target feature class
-input_gdb = r"\\location\to.gdb" # Path link to geodatabase
-input_fc = "fcname"
-unique_field = "Name"
-output_gdb = r"\\location\to.gdb" # Path link to geodatabase
+input_gdb_path = r"\path\to.gdb"
+fc_path = r"\path\to.gdbeaturename"
+unique_field = "field_name"
+output_gdb_path = r"\path\to.gdb"
 
 # Set workspace
-arcpy.env.workspace = input_gdb
+arcpy.env.workspace = input_gdb_path
 
 # Fully qualified path to input FC
-in_fc = os.path.join(input_gdb, input_fc)
+in_fc = os.path.join(input_gdb_path, fc_path)
 
 if arcpy.Exists(in_fc):
     print("Feature class exists, starting to explode feature class by attribute value")
@@ -66,7 +66,7 @@ for val in unique_vals:
 
         # Generate safe output name
         safe_val = str(val).replace(" ", "_").replace("/", "_")
-        out_fc = os.path.join(output_gdb, f"{input_fc}_{safe_val}")
+        out_fc = os.path.join(output_gdb_path, f"{fc_path}_{safe_val}")
 
         # Export subset
         arcpy.CopyFeatures_management(lyr, out_fc)

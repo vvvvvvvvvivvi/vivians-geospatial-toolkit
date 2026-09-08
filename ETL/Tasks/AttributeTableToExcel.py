@@ -5,21 +5,27 @@ import os
 import pandas as pd
 
 # Define the paths to the geodatabase and target feature class
-gdb_path = r"\\location\to.gdb" # Path link to geodatabase
+gdb_path = r"\path\to.gdb"
 arcpy.env.workspace = gdb_path
 arcpy.env.overwriteOutput = True
-writingFCs = [
-    "Crossings_Tagged",
-    "Crossings_Buffered_Tagged"
+in_fc_name_list = []
+    # "B245771DWIP_DATAOWNER.ec_ns_jac_WinteringPassageBirdSurveyStudyArea",
+    # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_vantage_points",
+    # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_observations___January",
+    # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_observations___February",
+    "B245771DWIP_DATAOWNER.WILDER_WINTERING_BIRD_OBSERVATIONS___MARCH",
+    # "B245771DWIP_DATAOWNER.ec_ns_jac_WilderWintBirdObsApril",
+    # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_transects___January",
+    # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_transects___February",
 ]
+output_base_folder = r"\path\	o\outputfolder"
 
-output_base_folder = r"\\path\to\workingfolder"
-
-for fc in writingFCs:
+for fc in in_fc_name_list:
     if arcpy.Exists(fc):
+        fc_name = fc.replace("B245771DWIP_DATAOWNER.", "")
         print(f"Exporting {fc} as Excel...")
         try:
-            output_file = os.path.join(output_base_folder, f"{fc}.xlsx")
+            output_file = os.path.join(output_base_folder, f"{fc_name}.xlsx")
             fields = [f.name for f in arcpy.ListFields(fc) if f.type not in ('Geometry', 'Date', 'OID')]
 
             # Use SearchCursor to avoid NumPy type issues
@@ -32,7 +38,7 @@ for fc in writingFCs:
 
             if not df.empty:
                 with pd.ExcelWriter(output_file) as writer:
-                    df.to_excel(writer, sheet_name=fc, index=False)
+                    df.to_excel(writer, sheet_name=fc_name, index=False)
                 print(f"Exported {fc} to Excel.")
             else:
                 print(f"{fc} is empty. Skipping export.")

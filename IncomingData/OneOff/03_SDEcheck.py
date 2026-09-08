@@ -2,9 +2,9 @@ import arcpy
 import os
 
 # Parameters - USER INPUTS
-aprx_path = r"\\location\to.aprx" # Path link to aprx
-map_name = "" # Name of the map in the APRX to export layers from
-sde_path = r"\\location\to.sde" # Path link to SDE
+aprx_path = r"\path\to.aprx"
+map_name = "just_a_name"
+sde_path = r"\path\to.sde"
 
 
 # Initialising 

@@ -2,13 +2,11 @@ import arcpy
 import re
 import ast
 import sys
+input_txt_path = r"\path\to.txt"
+output_gdb_path = r"\path\to.gdb"
 
 
-file_path = r"\\gblon0vs01\GISProj\B3553RG4_SaferSpeeds\Working\VL\02_NewData\rest_layers.txt"
-output_gdb = r"\\gblon0vs01\GISProj\B3553RG4_SaferSpeeds\Working\VL\02_NewData\IncomingData260707.gdb"
-
-
-def rest_service_to_gdb(layer_rest_url, layer_name, output_gdb):
+def rest_service_to_gdb(layer_rest_url, layer_name, output_gdb_path):
     import arcpy
     # Create layer
     print(f"Creating Layer")
@@ -18,15 +16,15 @@ def rest_service_to_gdb(layer_rest_url, layer_name, output_gdb):
 
     out_feature_class = arcpy.conversion.FeatureClassToFeatureClass(
         in_features=in_layer,
-        out_path=output_gdb,
+        out_path=output_gdb_path,
         out_name=layer_name
     )
     print(f"Imported into: {out_feature_class}")
 
     return out_feature_class
 
-def read_txt(file_path, keyword):
-    with open(file_path, "r", encoding="utf-8") as f:
+def read_txt(input_txt_path, keyword):
+    with open(input_txt_path, "r", encoding="utf-8") as f:
         raw = f.read()
 
     # find: feature_classes_to_migrate = [ ... ]
@@ -59,14 +57,14 @@ def layer_name():
     return rest_name
 
     
-rest_layers = read_txt(file_path, "rest_layers")
+rest_layers = read_txt(input_txt_path, "rest_layers")
 
 for rest_link in rest_layers:
     print(f"\nProcessing: {rest_link}")
     rest_name = layer_name()
 
     try:
-        rest_service_to_gdb(rest_link, rest_name, output_gdb)
+        rest_service_to_gdb(rest_link, rest_name, output_gdb_path)
         print(f"✅ Successfully imported {rest_name} into GDB.")
     except Exception as e:
         print(f"❌ Failed to import {rest_name}: {e}")

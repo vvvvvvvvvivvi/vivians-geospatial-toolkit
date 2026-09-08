@@ -1,9 +1,7 @@
 import arcpy
 import os
 import uuid
-
-
-gdb_path = r"\\location\to.gdb" # Path link to workspace geodatabase
+gdb_path = r"\path\to.gdb"
 BNG_SR = arcpy.SpatialReference(27700)
 
 arcpy.env.overwriteOutput = True
