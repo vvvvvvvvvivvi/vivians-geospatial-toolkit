@@ -10,9 +10,15 @@ for layout in aprx.listLayouts():
 
     for element in layout.listElements("TEXT_ELEMENT"):
         if element.name == element_name:
-            element.visible = False
-            found = True
-            print(f"{layout.name}: hidden")
+            if element.visible == False:
+                element.visible = True
+                found = True
+                print(f"{layout.name}: made visible")
+        elif element.name == element_name:
+            if element.visible == True:
+                element.visible = False
+                found = True
+                print(f"{layout.name}: hideen")
 
     if not found:
         print(f"{layout.name}: element not found")

@@ -26,17 +26,17 @@ for layout in aprx.listLayouts():
     if layout_keyword not in layout.name:
         print(f"Skipping layout: {layout.name}")
         continue
-layout_name = "just_a_name"
+    project_layout_name = layout.name
 
    
     pdf_path = os.path.join(
             output_base_folder,
-            f"{layout_name}{suffix}.pdf"
+            f"{project_layout_name}{suffix}.pdf"
         )
 
     png_path = os.path.join(
                 output_base_folder,
-                f"{layout_name}{suffix}.png"
+                f"{project_layout_name}{suffix}.png"
             )
 
 

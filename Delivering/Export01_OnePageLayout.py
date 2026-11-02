@@ -25,10 +25,10 @@ for layout in aprx.listLayouts():
     # if keyword not in layout.name:
     #     print(f"Skipping layout: {layout.name}")
     #     continue
-layout_name = "just_a_name"
+    project_layout_name = layout.name
 
     # Output file path (change extension as needed)
-    output_file = os.path.join(output_base_folder, f"{layout_name}.pdf")
+    output_file = os.path.join(output_base_folder, f"{project_layout_name}.pdf")
 
     # Export layout
     layout.exportToPDF(output_file)

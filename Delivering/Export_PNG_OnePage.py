@@ -25,10 +25,10 @@ for layout in aprx.listLayouts():
     # if layout_keyword not in layout.name:
     #     print(f"Skipping layout: {layout.name}")
     #     continue
-layout_name = "just_a_name"
+    project_layout_name = layout.name
 
     # Output file path (change extension as needed)
-    output_file = os.path.join(output_base_folder, f"{layout_name}.png")
+    output_file = os.path.join(output_base_folder, f"{project_layout_name}.png")
 
     # Export layout
     layout.exportToPNG(output_file, resolution=500)

@@ -1,0 +1,13 @@
+""" FOR USE IN ARCGIS FIELD CALCULATOR
+to clean up the HabitatType field and 
+populate a new HabitatType_Desc field with a more descriptive value.
+
+calc(!HabitatType!, !essentialcode1!)
+
+def calc(habitat, code):
+	habitat = habitat.split(" - ", 1)[0] if habitat else ""
+	if code:
+	    return f"{habitat}, {code}"
+	
+	return habitat
+"""

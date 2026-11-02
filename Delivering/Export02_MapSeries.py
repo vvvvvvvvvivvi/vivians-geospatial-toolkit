@@ -15,28 +15,28 @@ import zipfile
 
 # Parameters - USER INPUTS
 aprx_path = r"\path\to.aprx"
-output_link = r"\\gblon0vs01\GISProj\B245775P_NW_TeesIndustrialDemand\ArcGIS\001_Figures\005_GeomorphologyAssessment\Outgoing\v5" # Path link to output folder
-layout_keyword = "just_a_name"
+out_folder_path = r"\path\	o\folder"
+# layout_keyword = "Legend_"
 
 #----------------------------------------------------------------------
 # Initialising 
 aprx = arcpy.mp.ArcGISProject(aprx_path)
 print(f"Initiating Map Series export.")
 
-if not os.path.isdir(output_link):
-    os.makedirs(output_link, exist_ok=True)
+if not os.path.isdir(out_folder_path):
+    os.makedirs(out_folder_path, exist_ok=True)
 else:
     print("Output path exists, proceeding with export.")
     
 # Exporting map series 
 for layout in aprx.listLayouts():#
-    if layout_keyword not in layout.name:
-        print(f"Skipping layout: {layout.name}")
-        continue
+    # if layout_keyword in layout.name:
+    #     print(f"Skipping layout: {layout.name}")
+    #     continue
         
     ms = layout.mapSeries
     if ms:
-        export_name = arcpy.mp.CreateExportFormat('PDF', os.path.join(output_link, f"{lyt.name}.pdf"))
+        export_name = arcpy.mp.CreateExportFormat('PDF', os.path.join(out_folder_path, f"{layout.name}.pdf"))
         export_name.resolution = 500
 
         ms_ex_opt = arcpy.mp.CreateExportOptions("MAPSERIES")
@@ -56,11 +56,11 @@ for layout in aprx.listLayouts():#
 
 # Zipping outputs
 try:
-    base_dir = os.path.split(output_link)[0]
-    zip_path = os.path.join(base_dir, f"{os.path.basename(output_link)}.zip")
+    base_dir = os.path.split(out_folder_path)[0]
+    zip_path = os.path.join(base_dir, f"{os.path.basename(out_folder_path)}.zip")
 
     with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_cursor:
-        for root, dirs, files in os.walk(output_link):
+        for root, dirs, files in os.walk(out_folder_path):
             for file in files:
                 abs_path = os.path.join(root, file)
                 rel_path = os.path.relpath(abs_path, base_dir)

@@ -8,14 +8,14 @@ import string
 # Settings
 # =============================================================================
 
-gdb = r"\\gblon0vs01\GISProj\BXXXXXXX_AW_PFAS_CRA\Data\B25306AP_DataOwner@B25306AP_AMP8_PFAS.sde"
+gdb = r"\\gblon0vs01\GISProj\ReferencedData\BESP0016_KentCC_TransportDashboard\Data\BESP0016_Data.gdb"
 
 datasets = [
     {
-        "csv": r"\\gblon0vs01\GISProj\B245775P_NW_TeesIndustrialDemand\Working\VL\01_MarineEcologyReceptors\Dependents Mapping\White-clawed crayfish.csv",
-        "easting": "B",
-        "northing": "C",
-        "fc": "ec_JAC_MarineEcologyReceptors_WhiteClawedCrayfish"
+        "csv": r"\\gblon0vs01\GISProj\ReferencedData\BESP0016_KentCC_TransportDashboard\Working\VL\20261029\Summary_Sheet.csv",
+        "easting": "L",
+        "northing": "M",
+        "fc": "tr_KentCounts_12"
     },
     # {
     #     "csv": r"\\gblon0vs01\GISProj\B245775P_NW_TeesIndustrialDemand\Working\VL\01_MarineEcologyReceptors\Dependents Mapping\Barriers.csv",

@@ -77,6 +77,7 @@ grid_offsets = {
     'NY': (300000, 500000),
     'SE': (400000, 400000),
     'SD': (300000, 400000),
+    'NU': (400000, 600000),
 }
 
 def os_grid_to_easting_northing(grid_ref):

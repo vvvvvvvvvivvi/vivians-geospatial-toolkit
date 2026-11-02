@@ -13,7 +13,7 @@ in_fc_name_list = []
     # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_vantage_points",
     # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_observations___January",
     # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_observations___February",
-    "B245771DWIP_DATAOWNER.WILDER_WINTERING_BIRD_OBSERVATIONS___MARCH",
+    "SANDYMOUNTCFAS_DATAOWNER.su_DCC_RainGaugeNodes",
     # "B245771DWIP_DATAOWNER.ec_ns_jac_WilderWintBirdObsApril",
     # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_transects___January",
     # "B245771DWIP_DATAOWNER.Wilder_Wintering_bird_transects___February",

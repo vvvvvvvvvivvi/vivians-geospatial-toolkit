@@ -61,4 +61,4 @@ def main(publishing_path, publishing_map_name):
     print("\n✅ Scale rules applied successfully.")
 
 if __name__ == "__main__":
-    main(publishing_path, publishing_map_name)
+    main(publishing_aprx_path, publishing_map_name)

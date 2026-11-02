@@ -22,17 +22,18 @@ arcpy.management.MakeXYEventLayer(
 )
 
 # Export to permanent feature class
-output_fc_sde_path = os.path.join(output_sde_path, output_fc)
+output_fc_sde_path = os.path.join(output_sde_path, output_name)
 
 # Export to SDE
 arcpy.management.CopyFeatures(
     xy_layer,
     output_fc_sde_path
 )
-gdb_name = r"\path\to.gdb"
+
+output_gdb_name = output_name + "_01"
 
 # Export to permanent feature class
-output_fc_gdb_path = os.path.join(output_gdb_path, gdb_name)
+output_fc_gdb_path = os.path.join(output_gdb_path, output_gdb_name)
 
 # Export to GDB
 arcpy.management.CopyFeatures(
@@ -40,4 +41,4 @@ arcpy.management.CopyFeatures(
     output_fc_gdb_path
 )
 
-print(f"Feature class created: {output_fc} in SDE and {gdb_name} in GDB.")
+print(f"Feature class created: {output_name} in SDE and {output_gdb_name} in GDB.")

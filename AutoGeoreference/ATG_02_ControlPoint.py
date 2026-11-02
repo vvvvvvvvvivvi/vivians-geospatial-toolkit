@@ -15,7 +15,7 @@ import csv
 aprx_path = r"\path\to.aprx"
 reference_fc = r"\path\to.gdbeaturename"
 gdb_path = r"\path\to.gdb"
-working_folder_path = r"\\path\to\workingfolder" # Path link to working folder
+working_folder_path = r"\\gblon0vs01\GISProj\D3658300_ECRIPP\Working\VL\001_CumulativeAssessment" # Path link to working folder
 control_points_txt = os.path.join(working_folder_path, # Path link to working folder
                                   "ControlPoint.txt")
 

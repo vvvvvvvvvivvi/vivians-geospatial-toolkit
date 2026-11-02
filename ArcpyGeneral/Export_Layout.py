@@ -16,13 +16,13 @@ template_layout = next(
     l for l in aprx.listLayouts()
     if l.name == layout_name
 )
-pagx_path = r"\path\to.pagx"
+pagx_project_path = os.path.join(
     output_folder,
     f"{layout_name}.pagx"
 )
 
-print(f"Exporting {pagx_path}")
+print(f"Exporting {pagx_project_path}")
 
-template_layout.exportToPAGX(pagx_path)
+template_layout.exportToPAGX(pagx_project_path)
 
 print("Finished")
